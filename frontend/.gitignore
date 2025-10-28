@@ -31,4 +31,6 @@ __pycache__/
 
 # === System ===
 *.log
+backend/venv/
+
 
