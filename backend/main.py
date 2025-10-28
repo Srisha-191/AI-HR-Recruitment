@@ -15,19 +15,15 @@ def home():
 
 @app.post("/analyze_resume/")
 async def analyze_resume(file: UploadFile = File(...)):
-    # Step 1: Extract text from PDF
     pdf_reader = PdfReader(file.file)
     text = ""
     for page in pdf_reader.pages:
         text += page.extract_text() or ""
 
-    # Limit text for processing
     text = text[:2000]
 
-    # Step 2: Summarize resume
     summary = summarizer(text, max_length=150, min_length=30, do_sample=False)[0]['summary_text']
 
-    # Step 3: Extract keywords
     keywords = []
     for word in ["Python", "Java", "SQL", "Machine Learning", "AI", "Data", "Cloud", "React", "Node", "Communication"]:
         if word.lower() in text.lower():
@@ -39,7 +35,7 @@ async def analyze_resume(file: UploadFile = File(...)):
         "skills_detected": keywords,
     }
 
-# ✅ Important for Render: bind to its PORT
+# ✅ Important for Render
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))  # <-- Updated
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
