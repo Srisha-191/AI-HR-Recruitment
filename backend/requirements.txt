@@ -8,5 +8,9 @@ sentence-transformers
 spacy
 PyPDF2
 python-docx
-opencv-python
+opencv-python-headless
 deepface
+torch
+torchvision
+torchaudio
+

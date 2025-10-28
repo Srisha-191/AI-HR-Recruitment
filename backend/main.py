@@ -1,10 +1,12 @@
+import os
 from fastapi import FastAPI, UploadFile, File
 from PyPDF2 import PdfReader
 from transformers import pipeline
+import uvicorn
 
 app = FastAPI()
 
-# Load a summarization pipeline once at startup
+# Load summarizer once
 summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
 
 @app.get("/")
@@ -19,13 +21,13 @@ async def analyze_resume(file: UploadFile = File(...)):
     for page in pdf_reader.pages:
         text += page.extract_text() or ""
 
-    # Limit text for processing (avoid overload)
+    # Limit text for processing
     text = text[:2000]
 
-    # Step 2: Summarize the resume
+    # Step 2: Summarize resume
     summary = summarizer(text, max_length=150, min_length=30, do_sample=False)[0]['summary_text']
 
-    # Step 3: Extract keywords (simple rule-based for now)
+    # Step 3: Extract keywords
     keywords = []
     for word in ["Python", "Java", "SQL", "Machine Learning", "AI", "Data", "Cloud", "React", "Node", "Communication"]:
         if word.lower() in text.lower():
@@ -36,3 +38,8 @@ async def analyze_resume(file: UploadFile = File(...)):
         "summary": summary,
         "skills_detected": keywords,
     }
+
+# ✅ Important for Render: bind to its PORT
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # <-- Updated
+    uvicorn.run(app, host="0.0.0.0", port=port)
