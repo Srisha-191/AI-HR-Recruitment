@@ -7,7 +7,8 @@ import uvicorn
 app = FastAPI()
 
 # Load summarizer once
-summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+
 
 @app.get("/")
 def home():
