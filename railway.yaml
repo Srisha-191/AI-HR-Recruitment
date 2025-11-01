@@ -1,0 +1,10 @@
+services:
+  backend:
+    root: backend
+    dockerfile: Dockerfile
+    env:
+      PORT: 8000
+
+
+
+

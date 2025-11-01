@@ -9,5 +9,5 @@ spacy
 PyPDF2
 python-docx
 opencv-python-headless
-openai
-pydantic
+
+
