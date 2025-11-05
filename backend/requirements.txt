@@ -1,13 +1,7 @@
 fastapi
 uvicorn
-python-multipart
 sqlalchemy
 psycopg2-binary
-transformers
-sentence-transformers
-spacy
+python-multipart
 PyPDF2
 python-docx
-opencv-python-headless
-
-
